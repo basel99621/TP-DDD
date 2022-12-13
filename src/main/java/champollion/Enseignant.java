@@ -1,13 +1,19 @@
 package champollion;
-
+import java.util.ArrayList;
+import java.util.List;
 public class Enseignant extends Personne {
 
-    // TODO : rajouter les autres méthodes présentes dans le diagramme UML
+    // TODO : rajouter les autres méthodes présentes dans le diagramme UML fait
+private ArrayList<ServicePrevu> cours;
 
+    public Enseignant(String nom, String email, ArrayList<ServicePrevu> cours ) {
+        super(nom, email);
+        this.cours=new ArrayList<>();
+    }
     public Enseignant(String nom, String email) {
         super(nom, email);
+        this.cours = new ArrayList<>();
     }
-
     /**
      * Calcule le nombre total d'heures prévues pour cet enseignant en "heures équivalent TD" Pour le calcul : 1 heure
      * de cours magistral vaut 1,5 h "équivalent TD" 1 heure de TD vaut 1h "équivalent TD" 1 heure de TP vaut 0,75h
@@ -17,8 +23,16 @@ public class Enseignant extends Personne {
      *
      */
     public int heuresPrevues() {
-        // TODO: Implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");
+        // TODO: Implémenter cette méthode fait
+        int nombreHeuresprevues=0;
+      for (int i=0; i<this.cours.size(); i++ ) {
+            int heuresCM = this.cours.get(i).getVolumeCM();
+            int heuresTP =this.cours.get(i).getVolumeTP();
+            int heuresTD=this.cours.get(i).getVolumeTD();
+          int  heuresTotalesEnTDUE= (int) (heuresCM*1.5 + heuresTP*0.75 + heuresTD);
+          nombreHeuresprevues=heuresTotalesEnTDUE;
+        }
+        return nombreHeuresprevues;
     }
 
     /**
@@ -31,9 +45,20 @@ public class Enseignant extends Personne {
      *
      */
     public int heuresPrevuesPourUE(UE ue) {
-        // TODO: Implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");
+        // TODO: Implémenter cette méthode fait
+        int heuresPrevuesPourUE =0;
+        for (int i=0; i<this.cours.size(); i++ ) {
+            if (this.cours.get(i).getUe()==ue) {
+                int heuresCM = this.cours.get(i).getVolumeCM();
+                int heuresTP = this.cours.get(i).getVolumeTP();
+                int heuresTD = this.cours.get(i).getVolumeTD();
+                int heuresTotalesEnTDUE = (int) (heuresCM * 1.5 + heuresTP * 0.75 + heuresTD);
+                heuresPrevuesPourUE = heuresTotalesEnTDUE;
+            }
+        }
+        return heuresPrevuesPourUE;
     }
+
 
     /**
      * Ajoute un enseignement au service prévu pour cet enseignant
@@ -43,9 +68,14 @@ public class Enseignant extends Personne {
      * @param volumeTD le volume d'heures de TD
      * @param volumeTP le volume d'heures de TP
      */
-    public void ajouteEnseignement(UE ue, int volumeCM, int volumeTD, int volumeTP) {
-        // TODO: Implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");
+    public void ajouteEnseignement(UE ue, int volumeCM, int volumeTD, int volumeTP) throws IllegalArgumentException{
+        // TODO: Implémenter cette méthode fait
+        if (volumeCM<0 || volumeTD<0 || volumeTP<0){
+            throw new IllegalArgumentException("Un des volumes horaires  n'est pas valable (inférieur à 0)");
+        }
+        ServicePrevu sp= new ServicePrevu(ue, this, volumeCM, volumeTD, volumeTP);
+        this.cours.add(sp);
+        ue.getIntervenants().add(sp);
     }
 
 }

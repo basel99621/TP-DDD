@@ -1,7 +1,7 @@
 package champollion;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args)  {
         Enseignant bastide = new Enseignant("Rémi Bastide", "Remi.Bastide@irit.fr");
         Enseignant lamine  = new Enseignant("Elyes Lamine", "Elyes.Lamine@univ-jfc.fr");
         
