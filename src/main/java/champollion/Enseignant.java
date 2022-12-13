@@ -6,10 +6,7 @@ public class Enseignant extends Personne {
     // TODO : rajouter les autres méthodes présentes dans le diagramme UML fait
 private ArrayList<ServicePrevu> cours;
 
-    public Enseignant(String nom, String email, ArrayList<ServicePrevu> cours ) {
-        super(nom, email);
-        this.cours=new ArrayList<>();
-    }
+
     public Enseignant(String nom, String email) {
         super(nom, email);
         this.cours = new ArrayList<>();
@@ -24,15 +21,15 @@ private ArrayList<ServicePrevu> cours;
      */
     public int heuresPrevues() {
         // TODO: Implémenter cette méthode fait
-        int nombreHeuresprevues=0;
+        int heuresPrevues=0;
       for (int i=0; i<this.cours.size(); i++ ) {
             int heuresCM = this.cours.get(i).getVolumeCM();
             int heuresTP =this.cours.get(i).getVolumeTP();
             int heuresTD=this.cours.get(i).getVolumeTD();
-          int  heuresTotalesEnTDUE= (int) (heuresCM*1.5 + heuresTP*0.75 + heuresTD);
-          nombreHeuresprevues=heuresTotalesEnTDUE;
+          int  heuresTotalesEquivalentTD= (int) (heuresCM*1.5 + heuresTP*0.75 + heuresTD);
+          heuresPrevues=heuresTotalesEquivalentTD;
         }
-        return nombreHeuresprevues;
+        return heuresPrevues;
     }
 
     /**
@@ -53,7 +50,7 @@ private ArrayList<ServicePrevu> cours;
                 int heuresTP = this.cours.get(i).getVolumeTP();
                 int heuresTD = this.cours.get(i).getVolumeTD();
                 int heuresTotalesEnTDUE = (int) (heuresCM * 1.5 + heuresTP * 0.75 + heuresTD);
-                heuresPrevuesPourUE = heuresTotalesEnTDUE;
+                heuresPrevuesPourUE += heuresTotalesEnTDUE;
             }
         }
         return heuresPrevuesPourUE;
@@ -77,5 +74,17 @@ private ArrayList<ServicePrevu> cours;
         this.cours.add(sp);
         ue.getIntervenants().add(sp);
     }
+    public boolean enSousService() {
+        int heuresTotales = this.heuresPrevues();
+
+        if(heuresTotales >= 192) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
 
 }
+
+
